@@ -12,12 +12,13 @@ import {
 
 const router: Router = Router();
 router.get('/', getPosts);
+router.get('/:search', searchPosts);
+router.get('/:admin', getAllPosts);
 router.get('/:id', getPostById);
 router.post('/', createPost);
 router.put('/:id', updatePost);
 router.delete('/:id', deletePost);
-router.get('/:search', searchPosts);
-router.get('/:admin', getAllPosts);
+
 
 
 

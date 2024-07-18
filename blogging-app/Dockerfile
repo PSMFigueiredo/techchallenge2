@@ -1,8 +1,4 @@
-FROM ubuntu:latest
-LABEL authors="pedro"
-
-ENTRYPOINT ["top", "-b"]
-FROM node:14
+FROM node:18-alpine
 
 WORKDIR /usr/src/app
 
@@ -12,6 +8,20 @@ RUN npm install
 
 COPY . .
 
+ARG MONGO_URI
+ARG JWT_SECRET
+
+ENV MONGO_URI=$MONGO_URI
+ENV JWT_SECRET=$JWT_SECRET
+
+RUN echo "MONGO_URI=${MONGO_URI}" > .env && \
+    echo "JWT_SECRET=${JWT_SECRET}" >> .env
+
+RUN npm i -g pnpm
+
+RUN pnpm build
+
+
 EXPOSE 3000
 
-CMD ["npx", "ts-node", "src/app.ts"]
+CMD ["node", "dist/main", "src/app.ts"]
